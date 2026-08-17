@@ -128,14 +128,16 @@ jobs:
           VERSION: ${{ needs.verify.outputs.version }}
         run: |
           set -euo pipefail
+          {
+            echo "Published to PyPI: https://pypi.org/project/provenance-substrate/$VERSION/"
+            echo
+            echo "Conformance: finance v1 143/143 (suite be4cdbe3e0a53bbd...), academic v1 167/167 (suite 880744c3325c9227...). See docs/conformance.md."
+            echo
+            echo "SHA256SUMS attached. Zenodo archives this release and mints the DOI from .zenodo.json."
+          } > notes.md
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
           else
             gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" \
-              --title "provenance-substrate $VERSION" \
-              --notes "Published to PyPI: https://pypi.org/project/provenance-substrate/$VERSION/
-
-Conformance: finance v1 143/143 (suite be4cdbe3e0a53bbd…), academic v1 167/167 (suite 880744c3325c9227…). See docs/conformance.md.
-
-SHA256SUMS attached. Zenodo archives this release and mints the DOI from .zenodo.json."
+              --title "provenance-substrate $VERSION" --notes-file notes.md
           fi
