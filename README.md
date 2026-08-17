@@ -135,7 +135,8 @@ that a deterministic engine must confirm and a human must sign. See
 Concept DOI (all versions): [10.5281/zenodo.21984095](https://doi.org/10.5281/zenodo.21984095).
 See [`CITATION.cff`](./CITATION.cff). A version DOI is minted per GitHub Release from
 [`.zenodo.json`](./.zenodo.json); PyPI publishes via Trusted Publishing on tag. The
-procedure and the one-time owner setup are in [`docs/releasing.md`](./docs/releasing.md).
+procedure and the one-time owner setup are in [`docs/releasing.md`](./docs/releasing.md);
+the JOSS submission checklist is [`docs/joss-submission.md`](./docs/joss-submission.md).
 
 ## Provenance of this repo
 

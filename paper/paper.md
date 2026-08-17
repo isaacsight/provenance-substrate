@@ -49,7 +49,8 @@ Reproducibility infrastructure describes provenance (W3C PROV [@prov],
 RO-Crate [@rocrate], nanopublications [@nanopub]) or certifies re-execution by
 a human (CODECHECK [@codecheck]); software supply chains sign build steps
 (in-toto [@intoto], SLSA); media carries content credentials (C2PA); and the
-Lean kernel decides proofs [@mathlib]. Closest in spirit, deterministic integrity gates for LLM-assisted
+Lean kernel decides proofs [@mathlib] — increasingly for proofs that language
+models propose [@leandojo]. Closest in spirit, deterministic integrity gates for LLM-assisted
 clinical manuscripts [@nam2026gates] exact-match extracted claims against a
 manifest-locked analysis table in one domain. Each supplies one piece. None treats a
 *model's proposal* as a first-class, hash-addressed object that a
@@ -88,6 +89,10 @@ what was read; a disposer (kernel, re-executor, reconciler) that is never a
 model; rules-as-code that all run with reason codes; a fixed human-readable
 summary line; and a fixed, ordered audit-action sequence pinned by vectors.
 Nothing reads a clock or a random source on its own.
+
+*Datasets.* Signed reproduction reports export as JSONL with a per-row hash
+manifest, Zenodo deposition metadata, and Croissant [@croissant] JSON-LD, so a
+ledger of what did and did not reproduce is itself a citable dataset.
 
 *Agents.* The library ships a stdio MCP server so an agent can *request* a
 verdict inside an envelope; it cannot mint one.
