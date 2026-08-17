@@ -92,6 +92,12 @@ Nothing reads a clock or a random source on its own.
 *Agents.* The library ships a stdio MCP server so an agent can *request* a
 verdict inside an envelope; it cannot mint one.
 
+# Availability
+
+Source: <https://github.com/isaacsight/provenance-substrate> (MIT). PyPI:
+`pip install provenance-substrate`. Archived: Zenodo concept DOI
+[10.5281/zenodo.21984095](https://doi.org/10.5281/zenodo.21984095).
+
 # Acknowledgements
 
 The ledger substrate and finance v1 conformance vectors originate in

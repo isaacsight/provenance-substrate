@@ -4,6 +4,14 @@ message: "If you use this software, please cite it as below."
 type: software
 version: 0.1.1
 date-released: 2026-08-17
+doi: 10.5281/zenodo.21984095
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21984095
+    description: "Concept DOI (all versions)"
+  - type: doi
+    value: 10.5281/zenodo.21984096
+    description: "Version DOI (v0.1.1)"
 authors:
   - family-names: "Hernandez"
     given-names: "Isaac"

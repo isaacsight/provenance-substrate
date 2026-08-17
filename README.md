@@ -1,6 +1,6 @@
 # provenance-substrate
 
-[![CI](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml/badge.svg)](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml) [![finance v1 conformance](https://img.shields.io/badge/finance%20v1-143%2F143-6B5B95)](./docs/conformance.md) [![academic v1 conformance](https://img.shields.io/badge/academic%20v1-167%2F167-6B5B95)](./docs/conformance.md) [![license](https://img.shields.io/badge/license-MIT-6B5B95)](./LICENSE)
+[![CI](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml/badge.svg)](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml) [![finance v1 conformance](https://img.shields.io/badge/finance%20v1-143%2F143-6B5B95)](./docs/conformance.md) [![academic v1 conformance](https://img.shields.io/badge/academic%20v1-167%2F167-6B5B95)](./docs/conformance.md) [![license](https://img.shields.io/badge/license-MIT-6B5B95)](./LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21984095.svg)](https://doi.org/10.5281/zenodo.21984095) [![PyPI](https://img.shields.io/pypi/v/provenance-substrate?color=6B5B95)](https://pypi.org/project/provenance-substrate/)
 
 **The model proposes. Deterministic code disposes. A human signs the exact bytes. Every step is hash-chained.**
 
@@ -132,7 +132,8 @@ that a deterministic engine must confirm and a human must sign. See
 
 ## Citing and releasing
 
-See [`CITATION.cff`](./CITATION.cff). A Zenodo DOI is minted per GitHub Release from
+Concept DOI (all versions): [10.5281/zenodo.21984095](https://doi.org/10.5281/zenodo.21984095).
+See [`CITATION.cff`](./CITATION.cff). A version DOI is minted per GitHub Release from
 [`.zenodo.json`](./.zenodo.json); PyPI publishes via Trusted Publishing on tag. The
 procedure and the one-time owner setup are in [`docs/releasing.md`](./docs/releasing.md).
 
