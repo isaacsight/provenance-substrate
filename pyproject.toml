@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "provenance-substrate"
-version = "0.1.0"
+version = "0.1.1"
 description = "The model proposes, deterministic code disposes, a human signs. Content-addressed envelopes, hash-chained audit, signed approval — for ledgers, Lean proofs, paper claims, reproductions, benchmarks, and peer review."
 readme = "README.md"
 license = { text = "MIT" }

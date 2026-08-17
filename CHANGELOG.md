@@ -3,6 +3,10 @@
 All notable changes. The academic v1 suite hash is the real changelog: if it
 moved, reference behaviour moved, and the entry below says why.
 
+## 0.1.1 — 2026-08-17
+
+No behaviour change; suite hashes unchanged (finance v1 `be4cdbe3e0a53bbd…`, academic v1 `880744c3325c9227…`). Cut so that the first GitHub Release after enabling the Zenodo integration mints the concept DOI. Version string exposed in `provsubstrate.__version__` and the MCP `serverInfo` now match the package.
+
 ## 0.1.0 — 2026-08-17
 
 First release. Extracted from the kernel.chat monorepo (PR #74) and moved to

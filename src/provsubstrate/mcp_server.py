@@ -83,7 +83,7 @@ def handle(msg: dict, tools: Dict[str, Tool]) -> dict | None:
         return {"jsonrpc": "2.0", "id": mid, "result": {
             "protocolVersion": PROTOCOL_VERSION,
             "capabilities": {"tools": {}},
-            "serverInfo": {"name": "provenance-substrate", "version": "0.1.0"},
+            "serverInfo": {"name": "provenance-substrate", "version": "0.1.1"},
         }}
     if method == "notifications/initialized":
         return None
