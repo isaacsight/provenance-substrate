@@ -135,9 +135,14 @@ jobs:
             echo
             echo "SHA256SUMS attached. Zenodo archives this release and mints the DOI from .zenodo.json."
           } > notes.md
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
-          else
-            gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" \
-              --title "provenance-substrate $VERSION" --notes-file notes.md
-          fi
+          # GitHub's API returns intermittent 503s; a release must not depend on one lucky call.
+          for attempt in 1 2 3 4 5 6; do
+            if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY" && exit 0
+            else
+              gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" \
+                --title "provenance-substrate $VERSION" --notes-file notes.md && exit 0
+            fi
+            echo "attempt $attempt failed; retrying in 30s"; sleep 30
+          done
+          echo "::error::could not create/upload the GitHub Release after 6 attempts"; exit 1
