@@ -1,0 +1,141 @@
+name: Release
+
+# Cut a release: `git tag v0.1.0 && git push --tags`, then publish the GitHub
+# Release for that tag (or let this workflow draft it — see docs/releasing.md).
+#
+# What happens, in order:
+#   1. verify   — the tag matches pyproject.toml's version and CITATION.cff's;
+#                 tests, ruff, both conformance suites (strict), no drift.
+#   2. build    — sdist + wheel; both vector suites ship inside the wheel.
+#   3. publish  — PyPI via Trusted Publishing (OIDC). No API token anywhere.
+#   4. release  — attach dist/* + a SHA256SUMS file to the GitHub Release.
+#                 Zenodo's GitHub integration archives the release and mints
+#                 the DOI from .zenodo.json.
+#
+# One-time setup lives in docs/releasing.md.
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to (re)release, e.g. v0.1.0"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify tag, tests, conformance
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: v
+        name: Tag must equal pyproject + CITATION versions
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          TAG_V="${TAG#v}"
+          PY_V=$(python -c 'import tomllib;print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')
+          CFF_V=$(sed -n 's/^version: *//p' CITATION.cff | tr -d '"')
+          echo "tag=$TAG_V pyproject=$PY_V citation=$CFF_V"
+          [ "$TAG_V" = "$PY_V" ] || { echo "::error::tag $TAG_V != pyproject version $PY_V"; exit 1; }
+          [ "$TAG_V" = "$CFF_V" ] || { echo "::error::tag $TAG_V != CITATION.cff version $CFF_V"; exit 1; }
+          echo "version=$TAG_V" >> "$GITHUB_OUTPUT"
+      - run: pip install -e ".[dev]"
+      - run: ruff check src tests
+      - run: pytest -q
+      - run: provsub conformance finance-v1 --strict
+      - run: provsub conformance academic-v1 --strict
+      - run: provsub conformance --check
+
+  build:
+    name: Build sdist + wheel
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build
+      - run: python -m build
+      - name: Wheel must carry both vector suites
+        run: |
+          python - <<'PY'
+          import glob, zipfile
+          z = zipfile.ZipFile(glob.glob("dist/*.whl")[0]); n = z.namelist()
+          f = sum("vectors_finance_v1" in x for x in n); a = sum("vectors_academic_v1" in x for x in n)
+          print(f"finance vectors: {f}, academic vectors: {a}")
+          assert f >= 144 and a >= 168, "vector suites missing from wheel"
+          PY
+      - run: (cd dist && sha256sum * > SHA256SUMS && cat SHA256SUMS)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  publish-pypi:
+    name: Publish to PyPI (Trusted Publishing)
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/provenance-substrate
+    permissions:
+      id-token: write   # OIDC token for PyPI; no secrets involved
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - run: rm -f dist/SHA256SUMS
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          print-hash: true
+
+  github-release:
+    name: Attach artifacts to the GitHub Release
+    needs: [verify, publish-pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Create or update the release with the built artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" \
+              --title "provenance-substrate $VERSION" \
+              --notes "Published to PyPI: https://pypi.org/project/provenance-substrate/$VERSION/
+
+Conformance: finance v1 143/143 (suite be4cdbe3e0a53bbd…), academic v1 167/167 (suite 880744c3325c9227…). See docs/conformance.md.
+
+SHA256SUMS attached. Zenodo archives this release and mints the DOI from .zenodo.json."
+          fi

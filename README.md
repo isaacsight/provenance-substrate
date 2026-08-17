@@ -130,10 +130,11 @@ discipline in which a model's proposal is a first-class, hash-addressed object
 that a deterministic engine must confirm and a human must sign. See
 [`paper/paper.md`](./paper/paper.md).
 
-## Citing
+## Citing and releasing
 
-See [`CITATION.cff`](./CITATION.cff). A Zenodo DOI is minted per release from
-[`.zenodo.json`](./.zenodo.json).
+See [`CITATION.cff`](./CITATION.cff). A Zenodo DOI is minted per GitHub Release from
+[`.zenodo.json`](./.zenodo.json); PyPI publishes via Trusted Publishing on tag. The
+procedure and the one-time owner setup are in [`docs/releasing.md`](./docs/releasing.md).
 
 ## Provenance of this repo
 
