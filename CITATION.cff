@@ -9,8 +9,8 @@ authors:
     given-names: "Isaac"
     email: "kernel.chat@gmail.com"
     affiliation: "kernel.chat"
-repository-code: "https://github.com/isaacsight/kernel"
-url: "https://github.com/isaacsight/kernel/tree/main/packages/provenance"
+repository-code: "https://github.com/isaacsight/provenance-substrate"
+url: "https://github.com/isaacsight/provenance-substrate"
 license: MIT
 keywords:
   - "provenance engineering"

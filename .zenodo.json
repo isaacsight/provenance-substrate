@@ -11,7 +11,7 @@
     "peer review", "hash-chained audit log", "content-addressed envelopes", "conformance testing", "canonical JSON"
   ],
   "related_identifiers": [
-    { "identifier": "https://github.com/isaacsight/kernel", "relation": "isSupplementTo", "scheme": "url" },
+    { "identifier": "https://github.com/isaacsight/provenance-substrate", "relation": "isSupplementTo", "scheme": "url" },
     { "identifier": "https://www.npmjs.com/package/@kernel.chat/kbot-finance", "relation": "isDerivedFrom", "scheme": "url" }
   ],
   "access_right": "open"

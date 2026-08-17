@@ -1,11 +1,13 @@
 # provenance-substrate
 
+[![CI](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml/badge.svg)](https://github.com/isaacsight/provenance-substrate/actions/workflows/ci.yml) [![finance v1 conformance](https://img.shields.io/badge/finance%20v1-143%2F143-6B5B95)](./docs/conformance.md) [![academic v1 conformance](https://img.shields.io/badge/academic%20v1-167%2F167-6B5B95)](./docs/conformance.md) [![license](https://img.shields.io/badge/license-MIT-6B5B95)](./LICENSE)
+
 **The model proposes. Deterministic code disposes. A human signs the exact bytes. Every step is hash-chained.**
 
 A small, dependency-free Python library — with a language-neutral conformance
 suite — for making AI-assisted work *checkable* rather than merely plausible.
 It began as the ledger substrate in
-[`@kernel.chat/kbot-finance`](../kbot-finance) (where the AI reads an invoice
+[`@kernel.chat/kbot-finance`](https://github.com/isaacsight/kbot-finance) (where the AI reads an invoice
 but may never post the number) and is here generalized to the places academia
 is currently forced to trust a model's word:
 
@@ -132,6 +134,10 @@ that a deterministic engine must confirm and a human must sign. See
 
 See [`CITATION.cff`](./CITATION.cff). A Zenodo DOI is minted per release from
 [`.zenodo.json`](./.zenodo.json).
+
+## Provenance of this repo
+
+Extracted from the [kernel.chat monorepo](https://github.com/isaacsight/kernel) (PR #74, 2026-08-17) so the thing you star is one idea. The TypeScript reference and the finance v1 vectors' origin live in [`isaacsight/kbot-finance`](https://github.com/isaacsight/kbot-finance).
 
 ## License
 

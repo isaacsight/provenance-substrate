@@ -28,9 +28,9 @@ dev = ["pytest>=8", "ruff>=0.5"]
 provsub = "provsubstrate.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/isaacsight/kernel/tree/main/packages/provenance"
-Source = "https://github.com/isaacsight/kernel"
-Issues = "https://github.com/isaacsight/kernel/issues"
+Homepage = "https://github.com/isaacsight/provenance-substrate"
+Source = "https://github.com/isaacsight/provenance-substrate"
+Issues = "https://github.com/isaacsight/provenance-substrate/issues"
 
 [tool.hatch.build]
 dev-mode-dirs = ["src"]
